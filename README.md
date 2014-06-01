@@ -14,10 +14,10 @@ Then execute:
 
     wget https://pi4j.googlecode.com/files/pi4j-1.0-SNAPSHOT.deb
     sudo dpkg -i pi4j-1.0-SNAPSHOT.deb
-    wget https://github.com/Yharooer/Pi-LED-Test/blob/master/bin/PiLEDTest.jar
+    wget https://github.com/Yharooer/Pi-LED-Cycle/blob/master/bin/PiLEDCycle.jar
   
 
 More info at <a href="http://bentleycarr.com/tech/ledclock.html">bentleycarr.com</a>.
 ## Usage ##
-    java -jar PiLEDTest.jar
+    java -jar PiLEDCycle.jar
 
