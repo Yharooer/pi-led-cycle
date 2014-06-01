@@ -22,22 +22,64 @@ public class Main {
 		int ledOn = 1;
 		
 		// Creates Scanner Instance
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		
-		// Provisions 4 GPIO Pins
-		final GpioPinDigitalMultipurpose PinOne = 
-				gpio.provisionDigitalMultipurposePin(RaspiPin.GPIO_00, PinMode.DIGITAL_INPUT);
-		final GpioPinDigitalMultipurpose PinTwo = 
-				gpio.provisionDigitalMultipurposePin(RaspiPin.GPIO_01, PinMode.DIGITAL_INPUT);
-		final GpioPinDigitalMultipurpose PinThree = 
-				gpio.provisionDigitalMultipurposePin(RaspiPin.GPIO_02, PinMode.DIGITAL_INPUT);
-		final GpioPinDigitalMultipurpose PinFour = 
-				gpio.provisionDigitalMultipurposePin(RaspiPin.GPIO_03, PinMode.DIGITAL_INPUT);
+		String ledType = new String();
+		
+		// Creates variables for Pins
+		GpioPinDigitalMultipurpose PinOne;
+		GpioPinDigitalMultipurpose PinTwo;
+		GpioPinDigitalMultipurpose PinThree;
+		GpioPinDigitalMultipurpose PinFour;
 		
 		System.out.println("");
 		System.out.println("Charlieplexing Testing Program for Raspberry Pi with 4 Pins.");
 		System.out.println("By Bentley Carr");
 		System.out.println("");
+		
+		// Loops until the user inputs "1" or "2"
+				while ( !(ledType.equals("1") || ledType.equals("2")) ) {
+					
+					System.out.println("");
+					System.out.println("Use Hour LEDs or Minute LEDs? Hour LEDs will use ports 11, 12, 13 and 15; Minute LEDs will use ports 16, 18, 22 and 7.");
+					System.out.println("1 for Hour LEDs;");
+					System.out.print("2 for Minute LEDs: ");
+			
+					ledType = scanner.nextLine();
+					ledType = ledType.trim();
+					
+					System.out.println("");
+						
+				}
+				
+				// Provisions 4 GPIO Pins
+				switch (ledType) {
+				
+					case "1":
+						// Hour Pins
+						PinOne = gpio.provisionDigitalMultipurposePin(RaspiPin.GPIO_00, PinMode.DIGITAL_INPUT);
+						PinTwo = gpio.provisionDigitalMultipurposePin(RaspiPin.GPIO_01, PinMode.DIGITAL_INPUT);
+						PinThree = gpio.provisionDigitalMultipurposePin(RaspiPin.GPIO_02, PinMode.DIGITAL_INPUT);
+						PinFour = gpio.provisionDigitalMultipurposePin(RaspiPin.GPIO_03, PinMode.DIGITAL_INPUT);
+						break;
+					default:
+						// Minute Pins
+						PinOne = gpio.provisionDigitalMultipurposePin(RaspiPin.GPIO_04, PinMode.DIGITAL_INPUT);
+						PinTwo = gpio.provisionDigitalMultipurposePin(RaspiPin.GPIO_05, PinMode.DIGITAL_INPUT);
+						PinThree = gpio.provisionDigitalMultipurposePin(RaspiPin.GPIO_06, PinMode.DIGITAL_INPUT);
+						PinFour = gpio.provisionDigitalMultipurposePin(RaspiPin.GPIO_07, PinMode.DIGITAL_INPUT);
+						break;
+						
+				}
+
+				System.out.println("");
+				
+				PinOne.setMode(PinMode.DIGITAL_INPUT);
+				PinTwo.setMode(PinMode.DIGITAL_INPUT);
+				PinThree.setMode(PinMode.DIGITAL_INPUT);
+				PinFour.setMode(PinMode.DIGITAL_INPUT);
+		
 		System.out.println("The program will cycle through each LED.");
 		System.out.print("Length of time to wait between cycling thorugh LEDs (milliseconds):");
 		
@@ -162,28 +204,28 @@ public class Main {
 					break;
 				
 				case 9:
-					PinOne.setMode(PinMode.DIGITAL_OUTPUT);
-					PinOne.high();
-					
 					PinTwo.setMode(PinMode.DIGITAL_OUTPUT);
-					PinTwo.low();
+					PinTwo.high();
 					
-					PinThree.setMode(PinMode.DIGITAL_INPUT);
+					PinThree.setMode(PinMode.DIGITAL_OUTPUT);
+					PinThree.low();
+					
+					PinOne.setMode(PinMode.DIGITAL_INPUT);
 					
 					PinFour.setMode(PinMode.DIGITAL_INPUT);
 							
 					break;
 					
 				case 10:
-					PinTwo.setMode(PinMode.DIGITAL_OUTPUT);
-					PinTwo.high();
-					
 					PinFour.setMode(PinMode.DIGITAL_OUTPUT);
-					PinFour.low();
+					PinFour.high();
+					
+					PinThree.setMode(PinMode.DIGITAL_OUTPUT);
+					PinThree.low();
 					
 					PinOne.setMode(PinMode.DIGITAL_INPUT);
 					
-					PinThree.setMode(PinMode.DIGITAL_INPUT);
+					PinTwo.setMode(PinMode.DIGITAL_INPUT);
 							
 					break;
 					
@@ -191,28 +233,33 @@ public class Main {
 					PinOne.setMode(PinMode.DIGITAL_OUTPUT);
 					PinOne.high();
 					
-					PinTwo.setMode(PinMode.DIGITAL_OUTPUT);
-					PinTwo.low();
+					PinThree.setMode(PinMode.DIGITAL_OUTPUT);
+					PinThree.low();
 					
-					PinThree.setMode(PinMode.DIGITAL_INPUT);
+					PinTwo.setMode(PinMode.DIGITAL_INPUT);
 					
 					PinFour.setMode(PinMode.DIGITAL_INPUT);
 							
 					break;
 					
 				case 12:
-					PinTwo.setMode(PinMode.DIGITAL_OUTPUT);
-					PinTwo.high();
+					PinThree.setMode(PinMode.DIGITAL_OUTPUT);
+					PinThree.high();
 					
 					PinOne.setMode(PinMode.DIGITAL_OUTPUT);
 					PinOne.low();
 					
-					PinThree.setMode(PinMode.DIGITAL_INPUT);
+					PinTwo.setMode(PinMode.DIGITAL_INPUT);
 					
 					PinFour.setMode(PinMode.DIGITAL_INPUT);
 							
 					break;
-				
+					
+				default:
+					PinOne.setMode(PinMode.DIGITAL_INPUT);
+					PinTwo.setMode(PinMode.DIGITAL_INPUT);
+					PinThree.setMode(PinMode.DIGITAL_INPUT);
+					PinFour.setMode(PinMode.DIGITAL_INPUT);
 			}
 			
 		}
