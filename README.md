@@ -1,4 +1,4 @@
-Pi-LED-Cycle
+PiLEDCycle
 ============
 
 A program which tests Charlieplexing on the Raspberry Pi with 4 Pins. It cycles through each of the 12 pins at a configurable speed. It is the testing program to make sure everything is wired correctly for my <a href="https://github.com/Yharooer/Pi-LED-Clock.git">PiClock project</a>.
